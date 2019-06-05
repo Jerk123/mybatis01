@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间指向对应的接口-->
+<mapper namespace="net.wanho.mapper.StudentMapper">
+    <!--
+    id 对应接口中的方法名
+    parameterType 参数类型
+    -->
+    <resultMap id="stuMap" type="Student">
+        <id column="id" property="id"/>
+        <result column="sname" property="sname"/>
+        <result column="age" property="age"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+    </resultMap>
+
+
+    <select id="getAllStus" resultMap="stuMap">
+        SELECT
+            id,
+            sname,
+            age,
+            gender,
+            address
+        FROM
+            student
+    </select>
+
+    <select id="getStuById" resultType="Student">
+        SELECT *
+        FROM student
+        WHERE id = #{id}
+    </select>
+
+    <insert id="addStu" parameterType="Student">
+        INSERT INTO student VALUE (NULL, #{sname}, #{age}, #{gender}, #{address})
+    </insert>
+
+    <delete id="delStu" parameterType="integer">
+        DELETE FROM student
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateStu" parameterType="Student">
+        UPDATE student
+        SET sname = #{sname}, age = #{age}, gender = #{gender}, address = #{address}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStuById">
+        UPDATE student
+        SET sname = #{sname}, address = #{address}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStuById2">
+        UPDATE student
+        SET sname = #{stu.sname}, address = #{stu.address}
+        WHERE id = #{id}
+    </update>
+    <!--SELECT * FROM student WHERE sname LIKE #{name}-->
+    <!--SELECT * FROM student WHERE sname LIKE "%${value}%"-->
+    <!--SELECT * FROM student WHERE sname LIKE ${sname}-->
+    <select id="getStuByName" resultType="Student" parameterType="string">
+        SELECT *
+        FROM student
+        WHERE sname LIKE concat("%", #{name}, "%")
+    </select>
+
+    <insert id="addStuReturnKey" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO student VALUES (NULL, #{sname}, #{age}, #{gender}, #{address})
+    </insert>
+
+    <insert id="addStuReturnKey2">
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT last_insert_id()
+        </selectKey>
+        INSERT INTO student VALUES (NULL ,#{sname} ,#{age} ,#{gender} ,#{address} )
+    </insert>
+
+
+</mapper>

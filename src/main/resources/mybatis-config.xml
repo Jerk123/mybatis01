@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--数据库配置-->
+    <properties resource="db.properties">
+
+    </properties>
+
+    <!--类型别名
+    用类名代替权限名
+    -->
+    <typeAliases>
+        <package name="net.wanho.pojo"/>
+    </typeAliases>
+    <!--类型处理器typeHandlers  java jdbc 类型互转-->
+   <!-- <typeHandlers>
+
+    </typeHandlers>-->
+    <!--配置数据库环境-->
+    <environments default="development">
+        <environment id="development">
+            <!--配置事务处理方式-->
+            <!--JDBC  使用jdbc的提交与回滚
+                    MANAGED  什么都不做，把事务交给其他框架处理，后面交给spring
+                    -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--
+                POOLED      连接池模式
+                UNPOOLED    不使用连接池
+                JNDI        使用外部连接池
+                -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+       <!-- &lt;!&ndash;可以进行数据库切换&ndash;&gt;
+        <environment id="runtime">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>-->
+
+    </environments>
+
+    <!--接口映射文件-->
+    <mappers>
+        <!--<mapper resource="net/wanho/mapper/StudentMapper.xml"/>-->
+        <!--<mapper class="net.wanho.mapper.StudentMapper"/>-->
+        <package name="net.wanho.mapper"/>
+    </mappers>
+</configuration>
